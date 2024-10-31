@@ -1,0 +1,210 @@
+{
+  "label": "Multicast",
+  "description": "",
+  "grid": [
+    [
+      {
+        "label": "Multicast Routes",
+        "description": "",
+        "type": "stage",
+        "probe_id": "51ff5924-5c01-4d7a-b9ab-aa156f1ecaca",
+        "stage_name": "show multicast route extensive",
+        "filter": "",
+        "visible_columns": [
+          "properties.system_id",
+          "properties.ForwardingState",
+          "properties.RouteState",
+          "properties.Source",
+          "properties.StatsPackets",
+          "properties.Stats_Kbps",
+          "properties.Stats_pps",
+          "properties.UpstreamInterface",
+          "properties.Uptime",
+          "Group",
+          "timestamp"
+        ],
+        "orderby": "",
+        "max_items": 10,
+        "anomalous_only": false,
+        "show_context": false,
+        "spotlight_mode": false,
+        "data_source": "real_time",
+        "time_series_duration": 86400,
+        "aggregation_period": 300,
+        "aggregation_type": "unset",
+        "combine_graphs": "none"
+      },
+      {
+        "label": "Multicast Statistics",
+        "description": "",
+        "type": "stage",
+        "probe_id": "51ff5924-5c01-4d7a-b9ab-aa156f1ecaca",
+        "stage_name": "show multicast statistics extensive",
+        "filter": "",
+        "visible_columns": [],
+        "orderby": "",
+        "max_items": 10,
+        "anomalous_only": false,
+        "show_context": false,
+        "spotlight_mode": false,
+        "data_source": "real_time",
+        "time_series_duration": 86400,
+        "aggregation_period": 300,
+        "aggregation_type": "unset",
+        "combine_graphs": "none"
+      },
+      {
+        "label": "Multicast - PIM Join",
+        "description": "",
+        "type": "stage",
+        "probe_id": "51ff5924-5c01-4d7a-b9ab-aa156f1ecaca",
+        "stage_name": "pim join extensive",
+        "filter": "",
+        "visible_columns": [],
+        "orderby": "",
+        "max_items": 10,
+        "anomalous_only": false,
+        "show_context": false,
+        "spotlight_mode": false,
+        "data_source": "real_time",
+        "time_series_duration": 86400,
+        "aggregation_period": 300,
+        "aggregation_type": "unset",
+        "combine_graphs": "none"
+      }
+    ]
+  ],
+  "predefined_dashboard": "",
+  "default": false,
+  "probes": {
+    "51ff5924-5c01-4d7a-b9ab-aa156f1ecaca": {
+      "label": "Multicast",
+      "description": "",
+      "processors": [
+        {
+          "name": "Extensible Service Collector",
+          "type": "extensible_data_collector",
+          "properties": {
+            "service_name": "show_multicast_route",
+            "service_interval": "120",
+            "value_map": {},
+            "graph_query": [
+              "match(node('system', name='system', deploy_mode='deploy', role=is_in(['leaf'])))"
+            ],
+            "service_input": "''",
+            "query_group_by": [],
+            "keys": [],
+            "ingestion_filter": {},
+            "data_type": "dynamic",
+            "query_tag_filter": {
+              "filter": {},
+              "operation": "and"
+            },
+            "execution_count": "-1",
+            "system_id": "system.system_id",
+            "query_expansion": {},
+            "enable_streaming": false
+          },
+          "inputs": {},
+          "outputs": {
+            "out": "show multicast route extensive"
+          }
+        },
+        {
+          "name": "Extensible Service Collector 1",
+          "type": "extensible_data_collector",
+          "properties": {
+            "service_name": "show_multicast_statistics",
+            "service_interval": "120",
+            "value_map": {},
+            "graph_query": [
+              "match(node('system', name='system', deploy_mode='deploy', role=is_in(['leaf'])))"
+            ],
+            "service_input": "''",
+            "query_group_by": [],
+            "keys": [],
+            "ingestion_filter": {},
+            "data_type": "dynamic",
+            "query_tag_filter": {
+              "filter": {},
+              "operation": "and"
+            },
+            "execution_count": "-1",
+            "system_id": "system.system_id",
+            "query_expansion": {},
+            "enable_streaming": false
+          },
+          "inputs": {},
+          "outputs": {
+            "out": "show multicast statistics extensive"
+          }
+        },
+        {
+          "name": "Extensible Service Collector 2",
+          "type": "extensible_data_collector",
+          "properties": {
+            "service_name": "pim_join_Test",
+            "service_interval": "120",
+            "value_map": {},
+            "graph_query": [
+              "match(node('system', name='system', deploy_mode='deploy', role=is_in(['leaf'])))"
+            ],
+            "service_input": "''",
+            "query_group_by": [],
+            "keys": [],
+            "ingestion_filter": {},
+            "data_type": "dynamic",
+            "query_tag_filter": {
+              "filter": {},
+              "operation": "and"
+            },
+            "execution_count": "-1",
+            "system_id": "system.system_id",
+            "query_expansion": {},
+            "enable_streaming": false
+          },
+          "inputs": {},
+          "outputs": {
+            "out": "pim join extensive"
+          }
+        }
+      ],
+      "predefined_probe": null,
+      "stages": [
+        {
+          "name": "show multicast route extensive",
+          "description": "",
+          "units": {
+            "Group": ""
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        },
+        {
+          "name": "show multicast statistics extensive",
+          "description": "",
+          "units": {
+            "Interface": ""
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        },
+        {
+          "name": "pim join extensive",
+          "description": "",
+          "units": {
+            "Group": ""
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "description": "Testing spine macsec connection reporting",
+  "application_schema": {
+    "properties": {
+      "key": {
+        "properties": {
+          "Interface": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Interface"
+        ],
+        "type": "object"
+      },
+      "value": {
+        "properties": {
+          "CA_Name": {
+            "type": "string"
+          },
+          "Cipher_Suite": {
+            "type": "string"
+          },
+          "Encryption_ON": {
+            "type": "string"
+          },
+          "Inbound_SCID": {
+            "type": "string"
+          },
+          "Inbound_Status": {
+            "type": "string"
+          },
+          "Include_SCI": {
+            "type": "string"
+          },
+          "Outbound_SCID": {
+            "type": "string"
+          },
+          "Outbound_Status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "CA_Name",
+          "Cipher_Suite",
+          "Encryption_ON",
+          "Inbound_SCID",
+          "Inbound_Status",
+          "Include_SCI",
+          "Outbound_SCID",
+          "Outbound_Status"
+        ],
+        "type": "object"
+      }
+    },
+    "required": [
+      "key",
+      "value"
+    ],
+    "type": "object"
+  },
+  "service_name": "MacSec_Connections_Test",
+  "storage_schema_path": "aos.sdk.telemetry.schemas.iba_data",
+  "collectors": [
+    {
+      "platform": {
+        "os_type": "junos_evo",
+        "os_version": "21.2r2",
+        "family": "ptx",
+        "model": ""
+      },
+      "source_type": "cli",
+      "cli": "show security macsec connections",
+      "query": {
+        "accessors": {
+          "Inbound_SCID": "/macsec-connection-information/inbound-secure-channel/sci",
+          "Cipher_Suite": "/macsec-connection-information/macsec-interface-common-information/cipher-suite",
+          "Outbound_SCID": "/macsec-connection-information/outbound-secure-channel/sci",
+          "Interface": "/macsec-connection-information/macsec-interface-common-information/interface-name",
+          "Include_SCI": "/macsec-connection-information/macsec-interface-common-information/include-sci",
+          "Encryption_ON": "/macsec-connection-information/macsec-interface-common-information/encryption",
+          "Outbound_Status": "/macsec-connection-information/outbound-secure-channel/outbound-secure-association/association-number-status",
+          "Inbound_Status": "/macsec-connection-information/inbound-secure-channel/inbound-secure-association/association-number-status",
+          "CA_Name": "/macsec-connection-information/macsec-interface-common-information/connectivity-association-name"
+        },
+        "keys": {
+          "Interface": "Interface"
+        },
+        "values": {
+          "CA_Name": "CA_Name",
+          "Cipher_Suite": "Cipher_Suite",
+          "Encryption_ON": "Encryption_ON",
+          "Inbound_SCID": "Inbound_SCID",
+          "Inbound_Status": "Inbound_Status",
+          "Include_SCI": "Include_SCI",
+          "Outbound_SCID": "Outbound_SCID",
+          "Outbound_Status": "Outbound_Status"
+        },
+        "filter": ""
+      },
+      "relaxed_schema_validation": true
+    }
+  ],
+  "version": "version_0"
+}

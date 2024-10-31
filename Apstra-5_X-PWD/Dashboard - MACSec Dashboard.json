@@ -1,0 +1,301 @@
+{
+  "label": "MACSec Dashboard",
+  "description": "",
+  "grid": [
+    [
+      {
+        "label": "No MACSec License",
+        "description": "",
+        "type": "stage",
+        "probe_id": "b47211c0-9f54-4509-94fd-5c0d7ebb98ec",
+        "stage_name": "Check1_MACSec_Out_Of_Compliance",
+        "filter": "",
+        "visible_columns": [
+          "properties.system_id",
+          "timestamp"
+        ],
+        "orderby": "",
+        "max_items": 10,
+        "anomalous_only": true,
+        "show_context": false,
+        "spotlight_mode": false,
+        "data_source": "real_time",
+        "time_series_duration": 86400,
+        "aggregation_period": 300,
+        "aggregation_type": "unset",
+        "combine_graphs": "none"
+      }
+    ],
+    [
+      {
+        "label": "Invalid MACSec Licenses",
+        "description": "",
+        "type": "stage",
+        "probe_id": "bd34950e-bd45-4f12-8da0-9b851081eae0",
+        "stage_name": "Range",
+        "filter": "",
+        "visible_columns": [
+          "properties.system_id",
+          "properties.license_name",
+          "value",
+          "timestamp"
+        ],
+        "orderby": "",
+        "max_items": 10,
+        "anomalous_only": true,
+        "show_context": false,
+        "spotlight_mode": false,
+        "data_source": "real_time",
+        "time_series_duration": 86400,
+        "aggregation_period": 300,
+        "aggregation_type": "unset",
+        "combine_graphs": "none"
+      }
+    ]
+  ],
+  "predefined_dashboard": "",
+  "default": false,
+  "probes": {
+    "b47211c0-9f54-4509-94fd-5c0d7ebb98ec": {
+      "label": "Licences Check",
+      "description": "",
+      "processors": [
+        {
+          "name": "Licenses_Inventory",
+          "type": "extensible_data_collector",
+          "properties": {
+            "service_name": "licenses",
+            "service_interval": "120",
+            "value_map": {},
+            "graph_query": [
+              "match(node('system', name='system', deploy_mode='deploy', role=is_in(['leaf', 'access', 'spine', 'superspine'])))"
+            ],
+            "service_input": "''",
+            "query_group_by": [],
+            "keys": [],
+            "ingestion_filter": {},
+            "data_type": "dynamic",
+            "query_tag_filter": {
+              "filter": {},
+              "operation": "and"
+            },
+            "execution_count": "-1",
+            "system_id": "system.system_id",
+            "query_expansion": {},
+            "enable_streaming": false
+          },
+          "inputs": {},
+          "outputs": {
+            "out": "Licenses_Inventory"
+          }
+        },
+        {
+          "name": "Check1_MACSec",
+          "type": "match_string",
+          "properties": {
+            "raise_anomaly": false,
+            "graph_query": [],
+            "anomaly_retention_duration": 86400,
+            "enable_streaming": false,
+            "regexp": "\"MACSec|macsec|MACSEC|MACsec\"",
+            "anomaly_retention_size": 1073741824,
+            "enable_anomaly_logging": false
+          },
+          "inputs": {
+            "in": {
+              "stage": "Licenses_Inventory",
+              "column": "Description"
+            }
+          },
+          "outputs": {
+            "out": "Check1_MACSec"
+          }
+        },
+        {
+          "name": "Check1_MACSec_Count",
+          "type": "match_count",
+          "properties": {
+            "group_by": [
+              "system_id"
+            ],
+            "enable_streaming": false,
+            "reference_state": "true"
+          },
+          "inputs": {
+            "in": {
+              "stage": "Check1_MACSec",
+              "column": "value"
+            }
+          },
+          "outputs": {
+            "out": "Check1_MACSec_Count"
+          }
+        },
+        {
+          "name": "Check1_MACSec_Out_Of_Compliance",
+          "type": "range_check",
+          "properties": {
+            "property": "value",
+            "raise_on_nan": false,
+            "raise_anomaly": true,
+            "graph_query": [],
+            "anomaly_retention_duration": 86400,
+            "range": {
+              "min": 0,
+              "max": 0
+            },
+            "enable_streaming": false,
+            "anomaly_retention_size": 1073741824,
+            "enable_anomaly_logging": false
+          },
+          "inputs": {
+            "in": {
+              "stage": "Check1_MACSec_Count",
+              "column": "value"
+            }
+          },
+          "outputs": {
+            "out": "Check1_MACSec_Out_Of_Compliance"
+          }
+        }
+      ],
+      "predefined_probe": null,
+      "stages": [
+        {
+          "name": "Licenses_Inventory",
+          "description": "",
+          "units": {
+            "Description": ""
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        },
+        {
+          "name": "Check1_MACSec",
+          "description": "",
+          "units": {
+            "value": ""
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        },
+        {
+          "name": "Check1_MACSec_Out_Of_Compliance",
+          "description": "",
+          "units": {
+            "value": "Number of MACSec License in the Total of all Licenses installed"
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        },
+        {
+          "name": "Check1_MACSec_Count",
+          "description": "",
+          "units": {
+            "total_count": "",
+            "value": ""
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        }
+      ]
+    },
+    "bd34950e-bd45-4f12-8da0-9b851081eae0": {
+      "label": "MACSec_License_Status",
+      "description": "",
+      "processors": [
+        {
+          "name": "License_Status",
+          "type": "extensible_data_collector",
+          "properties": {
+            "service_name": "License_status",
+            "service_interval": "120",
+            "value_map": {},
+            "graph_query": [
+              "match(node('system', name='system', deploy_mode='deploy', role=is_in(['leaf', 'access', 'spine', 'superspine'])))"
+            ],
+            "service_input": "''",
+            "query_group_by": [],
+            "keys": [],
+            "ingestion_filter": {},
+            "data_type": "dynamic",
+            "query_tag_filter": {
+              "filter": {},
+              "operation": "and"
+            },
+            "execution_count": "-1",
+            "system_id": "system.system_id",
+            "query_expansion": {},
+            "enable_streaming": false
+          },
+          "inputs": {},
+          "outputs": {
+            "out": "License_Status_Out"
+          }
+        },
+        {
+          "name": "Range",
+          "type": "range_check",
+          "properties": {
+            "property": "value",
+            "raise_on_nan": false,
+            "raise_anomaly": true,
+            "graph_query": [],
+            "anomaly_retention_duration": 86400,
+            "range": {
+              "min": 0,
+              "max": 0
+            },
+            "enable_streaming": false,
+            "anomaly_retention_size": 1073741824,
+            "enable_anomaly_logging": false
+          },
+          "inputs": {
+            "in": {
+              "stage": "License_Status_Out",
+              "column": "licensed"
+            }
+          },
+          "outputs": {
+            "out": "Range"
+          }
+        }
+      ],
+      "predefined_probe": null,
+      "stages": [
+        {
+          "name": "License_Status_Out",
+          "description": "",
+          "units": {
+            "description": "",
+            "licensed": "",
+            "validity-type": ""
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        },
+        {
+          "name": "Range",
+          "description": "",
+          "units": {
+            "value": ""
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        }
+      ]
+    }
+  }
+}

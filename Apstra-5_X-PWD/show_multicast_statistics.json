@@ -1,0 +1,87 @@
+{
+  "description": "",
+  "application_schema": {
+    "properties": {
+      "key": {
+        "properties": {
+          "inkbytes": {
+            "type": "string"
+          },
+          "inpackets": {
+            "type": "string"
+          },
+          "mismatch": {
+            "type": "string"
+          },
+          "outkbytes": {
+            "type": "string"
+          },
+          "outpackets": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "inkbytes",
+          "inpackets",
+          "outkbytes",
+          "outpackets",
+          "mismatch"
+        ],
+        "type": "object"
+      },
+      "value": {
+        "properties": {
+          "Interface": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Interface"
+        ],
+        "type": "object"
+      }
+    },
+    "required": [
+      "key",
+      "value"
+    ],
+    "type": "object"
+  },
+  "service_name": "show_multicast_statistics",
+  "storage_schema_path": "aos.sdk.telemetry.schemas.iba_data",
+  "collectors": [
+    {
+      "platform": {
+        "os_type": "junos_evo",
+        "os_version": "21.2r2",
+        "family": "ptx,ptx1k,qfx-ms-fixed",
+        "model": ""
+      },
+      "source_type": "cli",
+      "cli": "show multicast statistics instance A",
+      "query": {
+        "accessors": {
+          "inkbytes": "/multicast-statistics-information/multicast-statistics/mc-stats-interface/mc-input-kbytes",
+          "inpackets": "/multicast-statistics-information/multicast-statistics/mc-stats-interface/mc-input-packets",
+          "outkbytes": "/multicast-statistics-information/multicast-statistics/mc-stats-interface/mc-output-kbytes",
+          "outpackets": "/multicast-statistics-information/multicast-statistics/mc-stats-interface/mc-output-packets",
+          "mismatch": "/multicast-statistics-information/multicast-statistics/mc-stats-interface/mc-mismatches",
+          "Interface": "/multicast-statistics-information/multicast-statistics/mc-stats-interface/interface-name"
+        },
+        "keys": {
+          "inkbytes": "inkbytes",
+          "inpackets": "inpackets",
+          "outkbytes": "outkbytes",
+          "outpackets": "outpackets",
+          "mismatch": "mismatch"
+        },
+        "values": {
+          "Interface": "Interface"
+        },
+        "filter": ""
+      },
+      "relaxed_schema_validation": true
+    }
+  ],
+  "version": "version_0"
+}

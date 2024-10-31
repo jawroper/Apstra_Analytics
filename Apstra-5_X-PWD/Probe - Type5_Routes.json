@@ -1,0 +1,180 @@
+{
+  "label": "Type5_Routes",
+  "processors": [
+    {
+      "name": "Routes",
+      "type": "extensible_data_collector",
+      "properties": {
+        "service_name": "EV-T5-Routes",
+        "service_interval": "60",
+        "value_map": {},
+        "graph_query": [
+          "match(node('system', name='system', deploy_mode='deploy', role=is_in(['leaf', 'access', 'spine', 'superspine'])))"
+        ],
+        "service_input": "''",
+        "query_group_by": [],
+        "keys": [],
+        "ingestion_filter": {},
+        "data_type": "dynamic",
+        "query_tag_filter": {
+          "filter": {},
+          "operation": "and"
+        },
+        "execution_count": "-1",
+        "system_id": "system.system_id",
+        "query_expansion": {},
+        "enable_streaming": false
+      },
+      "inputs": {},
+      "outputs": {
+        "out": "Routes_Out"
+      }
+    },
+    {
+      "name": "Active-Routes",
+      "type": "match_string",
+      "properties": {
+        "raise_anomaly": false,
+        "graph_query": [],
+        "anomaly_retention_duration": 86400,
+        "enable_streaming": false,
+        "regexp": "\"^\\*+$\"",
+        "anomaly_retention_size": 1073741824,
+        "enable_anomaly_logging": false
+      },
+      "inputs": {
+        "in": {
+          "stage": "Routes_Out",
+          "column": "active-state"
+        }
+      },
+      "outputs": {
+        "out": "Active-Routes-Out"
+      }
+    },
+    {
+      "name": "AMC",
+      "type": "match_count",
+      "properties": {
+        "group_by": [
+          "system_id"
+        ],
+        "enable_streaming": false,
+        "reference_state": "true"
+      },
+      "inputs": {
+        "in": {
+          "stage": "Active-Routes-Out",
+          "column": "value"
+        }
+      },
+      "outputs": {
+        "out": "AMC_Out"
+      }
+    },
+    {
+      "name": "AMC_Tot",
+      "type": "match_count",
+      "properties": {
+        "group_by": [],
+        "enable_streaming": false,
+        "reference_state": "true"
+      },
+      "inputs": {
+        "in": {
+          "stage": "Active-Routes-Out",
+          "column": "value"
+        }
+      },
+      "outputs": {
+        "out": "AMC_Tot_Out"
+      }
+    },
+    {
+      "name": "IMC",
+      "type": "match_count",
+      "properties": {
+        "group_by": [
+          "system_id"
+        ],
+        "enable_streaming": false,
+        "reference_state": "false"
+      },
+      "inputs": {
+        "in": {
+          "stage": "Active-Routes-Out",
+          "column": "value"
+        }
+      },
+      "outputs": {
+        "out": "IMC_Out"
+      }
+    },
+    {
+      "name": "IMC_Tot",
+      "type": "match_count",
+      "properties": {
+        "group_by": [],
+        "enable_streaming": false,
+        "reference_state": "false"
+      },
+      "inputs": {
+        "in": {
+          "stage": "Active-Routes-Out",
+          "column": "value"
+        }
+      },
+      "outputs": {
+        "out": "IMC_Tot_Out"
+      }
+    }
+  ],
+  "stages": [
+    {
+      "name": "IMC_Tot_Out",
+      "retention_duration": 86400,
+      "units": {
+        "total_count": "",
+        "value": ""
+      }
+    },
+    {
+      "name": "IMC_Out",
+      "retention_duration": 86400,
+      "units": {
+        "total_count": "",
+        "value": ""
+      }
+    },
+    {
+      "name": "AMC_Tot_Out",
+      "retention_duration": 86400,
+      "units": {
+        "total_count": "",
+        "value": "Active Routes"
+      }
+    },
+    {
+      "name": "Active-Routes-Out",
+      "retention_duration": 86400,
+      "units": {
+        "value": ""
+      }
+    },
+    {
+      "name": "Routes_Out",
+      "retention_duration": 86400,
+      "units": {
+        "active-state": ""
+      }
+    },
+    {
+      "name": "AMC_Out",
+      "retention_duration": 86400,
+      "units": {
+        "total_count": "",
+        "value": "Active Routes"
+      }
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "label": "EVPN VXLAN Type-5 Route Validation",
+  "description": "The probe validates EVPN Type 5 routes",
+  "processors": [
+    {
+      "name": "EVPN Type 5 Routes",
+      "type": "evpn5",
+      "properties": {
+        "service_name": "evpn_vxlan_type5",
+        "service_interval": "600.0",
+        "service_input": "''",
+        "execution_count": "-1",
+        "enable_streaming": false
+      },
+      "inputs": {},
+      "outputs": {
+        "routes": "EVPN Table",
+        "missing": "Number of missing routes"
+      }
+    },
+    {
+      "name": "Missing Routes",
+      "type": "range_check",
+      "properties": {
+        "property": "value",
+        "raise_on_nan": false,
+        "raise_anomaly": false,
+        "graph_query": [],
+        "anomaly_retention_duration": 86400,
+        "range": {
+          "min": 1
+        },
+        "enable_streaming": false,
+        "anomaly_retention_size": 1073741824,
+        "enable_anomaly_logging": false
+      },
+      "inputs": {
+        "in": {
+          "stage": "Number of missing routes",
+          "column": "value"
+        }
+      },
+      "outputs": {
+        "out": "Missing Routes"
+      }
+    },
+    {
+      "name": "Sustained Missing Routes",
+      "type": "time_in_state_check",
+      "properties": {
+        "raise_anomaly": true,
+        "graph_query": [],
+        "anomaly_retention_duration": 86400,
+        "state_range": {
+          "\"true\"": [
+            {
+              "min": 660
+            }
+          ]
+        },
+        "time_window": 660,
+        "enable_streaming": false,
+        "anomaly_retention_size": 1073741824,
+        "enable_anomaly_logging": false
+      },
+      "inputs": {
+        "in": {
+          "stage": "Missing Routes",
+          "column": "value"
+        }
+      },
+      "outputs": {
+        "out": "Sustained Anomalies"
+      }
+    },
+    {
+      "name": "Total number of sustained anomalies per SystemID, VNI",
+      "type": "match_count",
+      "properties": {
+        "group_by": [],
+        "enable_streaming": false,
+        "reference_state": "true"
+      },
+      "inputs": {
+        "in": {
+          "stage": "Sustained Anomalies",
+          "column": "value"
+        }
+      },
+      "outputs": {
+        "out": "Number of Sustained Anomalies"
+      }
+    }
+  ],
+  "stages": [
+    {
+      "name": "Number of missing routes",
+      "retention_duration": 86400,
+      "description": "Number of missing routes grouped by System and VNI.",
+      "units": {
+        "value": ""
+      }
+    },
+    {
+      "name": "Number of Sustained Anomalies",
+      "retention_duration": 86400,
+      "description": "Show total number of sustained anomalies.",
+      "units": {
+        "total_count": "",
+        "value": ""
+      }
+    },
+    {
+      "name": "Missing Routes",
+      "retention_duration": 86400,
+      "description": "Show anomalies for System and VNI if there are missing routes sustained over the specified duration.",
+      "units": {
+        "value": ""
+      }
+    },
+    {
+      "name": "Sustained Anomalies",
+      "retention_duration": 86400,
+      "description": "Raises an anomaly per System and VNI when missing routes are present longer that Anomaly Time Window.",
+      "units": {
+        "value": ""
+      }
+    },
+    {
+      "name": "EVPN Table",
+      "retention_duration": 86400,
+      "description": "EVPN Type 5 Routing Table.",
+      "units": {
+        "value": ""
+      }
+    }
+  ]
+}

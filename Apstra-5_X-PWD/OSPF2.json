@@ -1,0 +1,63 @@
+{
+  "description": "",
+  "application_schema": {
+    "properties": {
+      "key": {
+        "properties": {
+          "interface": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "interface"
+        ],
+        "type": "object"
+      },
+      "value": {
+        "properties": {
+          "state": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "state"
+        ],
+        "type": "object"
+      }
+    },
+    "required": [
+      "key",
+      "value"
+    ],
+    "type": "object"
+  },
+  "service_name": "OSPF2",
+  "storage_schema_path": "aos.sdk.telemetry.schemas.iba_data",
+  "collectors": [
+    {
+      "platform": {
+        "os_type": "junos_evo",
+        "os_version": "21.2r2",
+        "family": "acx-f,acx-qfx-7k,ptx,ptx1k,qfx-ms-fixed",
+        "model": ""
+      },
+      "source_type": "cli",
+      "cli": "show ospf neighbor instance A",
+      "query": {
+        "accessors": {
+          "interface": "/ospf-neighbor-information/ospf-neighbor/interface-name",
+          "state": "/ospf-neighbor-information/ospf-neighbor/ospf-neighbor-state"
+        },
+        "keys": {
+          "interface": "interface"
+        },
+        "values": {
+          "state": "str(state)"
+        },
+        "filter": ""
+      },
+      "relaxed_schema_validation": true
+    }
+  ],
+  "version": "version_0"
+}

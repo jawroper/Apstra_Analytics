@@ -1,0 +1,69 @@
+{
+  "description": "",
+  "application_schema": {
+    "properties": {
+      "key": {
+        "properties": {
+          "route_entry": {
+            "type": "string"
+          },
+          "route_table": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "route_entry",
+          "route_table"
+        ],
+        "type": "object"
+      },
+      "value": {
+        "properties": {
+          "active-state": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "active-state"
+        ],
+        "type": "object"
+      }
+    },
+    "required": [
+      "key",
+      "value"
+    ],
+    "type": "object"
+  },
+  "service_name": "EV-T5-Routes",
+  "storage_schema_path": "aos.sdk.telemetry.schemas.iba_data",
+  "collectors": [
+    {
+      "platform": {
+        "os_type": "junos_evo",
+        "os_version": "21.2r2",
+        "family": "ptx,ptx1k,qfx-ms-fixed",
+        "model": ""
+      },
+      "source_type": "cli",
+      "cli": "show route match-prefix \"5:*\"",
+      "query": {
+        "accessors": {
+          "route_entry": "/route-information/route-table/rt/rt-destination",
+          "route_table": "/route-information/route-table/table-name",
+          "active_state": "/route-information/route-table/rt/rt-entry/active-tag"
+        },
+        "keys": {
+          "route_entry": "route_entry",
+          "route_table": "route_table"
+        },
+        "values": {
+          "active-state": "active_state"
+        },
+        "filter": "keys['route_table'].lower().endswith([\"evpn.0\"])"
+      },
+      "relaxed_schema_validation": true
+    }
+  ],
+  "version": "version_0"
+}

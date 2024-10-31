@@ -1,0 +1,310 @@
+{
+  "label": "EVPN TYPE-2 Routes",
+  "description": "",
+  "grid": [
+    [
+      {
+        "label": "Total Active",
+        "description": "",
+        "type": "stage",
+        "probe_id": "90d12b09-2a53-45a4-a500-b0c570130689",
+        "stage_name": "AMC_Tot_Out",
+        "filter": "",
+        "visible_columns": [
+          "value",
+          "timestamp"
+        ],
+        "orderby": "",
+        "max_items": 10,
+        "anomalous_only": false,
+        "show_context": true,
+        "spotlight_mode": false,
+        "data_source": "real_time",
+        "time_series_duration": 86400,
+        "aggregation_period": 300,
+        "aggregation_type": "unset",
+        "combine_graphs": "none"
+      },
+      {
+        "label": "Total Active by Device",
+        "description": "",
+        "type": "stage",
+        "probe_id": "90d12b09-2a53-45a4-a500-b0c570130689",
+        "stage_name": "AMC_Out",
+        "filter": "",
+        "visible_columns": [
+          "properties.system_id",
+          "value",
+          "timestamp"
+        ],
+        "orderby": "",
+        "max_items": 10,
+        "anomalous_only": false,
+        "show_context": true,
+        "spotlight_mode": false,
+        "data_source": "real_time",
+        "time_series_duration": 86400,
+        "aggregation_period": 300,
+        "aggregation_type": "unset",
+        "combine_graphs": "none"
+      }
+    ],
+    [
+      {
+        "label": "Total Hidden",
+        "description": "",
+        "type": "stage",
+        "probe_id": "90d12b09-2a53-45a4-a500-b0c570130689",
+        "stage_name": "IMC_Tot_Out",
+        "filter": "",
+        "visible_columns": [
+          "value",
+          "timestamp"
+        ],
+        "orderby": "",
+        "max_items": 10,
+        "anomalous_only": false,
+        "show_context": true,
+        "spotlight_mode": false,
+        "data_source": "real_time",
+        "time_series_duration": 86400,
+        "aggregation_period": 300,
+        "aggregation_type": "unset",
+        "combine_graphs": "none"
+      },
+      {
+        "label": "Total Hidden by Device",
+        "description": "",
+        "type": "stage",
+        "probe_id": "90d12b09-2a53-45a4-a500-b0c570130689",
+        "stage_name": "IMC_Out",
+        "filter": "",
+        "visible_columns": [
+          "properties.system_id",
+          "value",
+          "timestamp"
+        ],
+        "orderby": "",
+        "max_items": 10,
+        "anomalous_only": false,
+        "show_context": true,
+        "spotlight_mode": false,
+        "data_source": "real_time",
+        "time_series_duration": 86400,
+        "aggregation_period": 300,
+        "aggregation_type": "unset",
+        "combine_graphs": "none"
+      }
+    ]
+  ],
+  "predefined_dashboard": "",
+  "default": false,
+  "probes": {
+    "90d12b09-2a53-45a4-a500-b0c570130689": {
+      "label": "Type2_Routes",
+      "description": "",
+      "processors": [
+        {
+          "name": "Routes",
+          "type": "extensible_data_collector",
+          "properties": {
+            "service_name": "EV-T2-Routes",
+            "service_interval": "60",
+            "value_map": {},
+            "graph_query": [
+              "match(node('system', name='system', deploy_mode='deploy', role=is_in(['leaf', 'access', 'spine', 'superspine'])))"
+            ],
+            "service_input": "''",
+            "query_group_by": [],
+            "keys": [],
+            "ingestion_filter": {},
+            "data_type": "dynamic",
+            "query_tag_filter": {
+              "filter": {},
+              "operation": "and"
+            },
+            "execution_count": "-1",
+            "system_id": "system.system_id",
+            "query_expansion": {},
+            "enable_streaming": false
+          },
+          "inputs": {},
+          "outputs": {
+            "out": "Routes_Out"
+          }
+        },
+        {
+          "name": "Active-Routes",
+          "type": "match_string",
+          "properties": {
+            "raise_anomaly": false,
+            "graph_query": [],
+            "anomaly_retention_duration": 86400,
+            "enable_streaming": false,
+            "regexp": "\"^\\*+$\"",
+            "anomaly_retention_size": 1073741824,
+            "enable_anomaly_logging": false
+          },
+          "inputs": {
+            "in": {
+              "stage": "Routes_Out",
+              "column": "active-state"
+            }
+          },
+          "outputs": {
+            "out": "Active-Routes-Out"
+          }
+        },
+        {
+          "name": "AMC",
+          "type": "match_count",
+          "properties": {
+            "group_by": [
+              "system_id"
+            ],
+            "enable_streaming": false,
+            "reference_state": "true"
+          },
+          "inputs": {
+            "in": {
+              "stage": "Active-Routes-Out",
+              "column": "value"
+            }
+          },
+          "outputs": {
+            "out": "AMC_Out"
+          }
+        },
+        {
+          "name": "AMC_Tot",
+          "type": "match_count",
+          "properties": {
+            "group_by": [],
+            "enable_streaming": false,
+            "reference_state": "true"
+          },
+          "inputs": {
+            "in": {
+              "stage": "Active-Routes-Out",
+              "column": "value"
+            }
+          },
+          "outputs": {
+            "out": "AMC_Tot_Out"
+          }
+        },
+        {
+          "name": "IMC",
+          "type": "match_count",
+          "properties": {
+            "group_by": [
+              "system_id"
+            ],
+            "enable_streaming": false,
+            "reference_state": "false"
+          },
+          "inputs": {
+            "in": {
+              "stage": "Active-Routes-Out",
+              "column": "value"
+            }
+          },
+          "outputs": {
+            "out": "IMC_Out"
+          }
+        },
+        {
+          "name": "IMC_Tot",
+          "type": "match_count",
+          "properties": {
+            "group_by": [],
+            "enable_streaming": false,
+            "reference_state": "false"
+          },
+          "inputs": {
+            "in": {
+              "stage": "Active-Routes-Out",
+              "column": "value"
+            }
+          },
+          "outputs": {
+            "out": "IMC_Tot_Out"
+          }
+        }
+      ],
+      "predefined_probe": null,
+      "stages": [
+        {
+          "name": "IMC_Tot_Out",
+          "description": "",
+          "units": {
+            "total_count": "",
+            "value": ""
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        },
+        {
+          "name": "IMC_Out",
+          "description": "",
+          "units": {
+            "total_count": "",
+            "value": ""
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        },
+        {
+          "name": "AMC_Tot_Out",
+          "description": "",
+          "units": {
+            "total_count": "",
+            "value": "Active Routes"
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        },
+        {
+          "name": "Active-Routes-Out",
+          "description": "",
+          "units": {
+            "value": ""
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        },
+        {
+          "name": "Routes_Out",
+          "description": "",
+          "units": {
+            "active-state": ""
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        },
+        {
+          "name": "AMC_Out",
+          "description": "",
+          "units": {
+            "total_count": "",
+            "value": "Active Routes"
+          },
+          "enable_metric_logging": false,
+          "retention_duration": 86400,
+          "retention_size": 0,
+          "graph_annotation_properties": {}
+        }
+      ]
+    }
+  }
+}

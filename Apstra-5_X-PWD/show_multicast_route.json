@@ -1,0 +1,105 @@
+{
+  "description": "show multicast route extensive instance A",
+  "application_schema": {
+    "properties": {
+      "key": {
+        "properties": {
+          "ForwardingState": {
+            "type": "string"
+          },
+          "RouteState": {
+            "type": "string"
+          },
+          "Source": {
+            "type": "string"
+          },
+          "StatsPackets": {
+            "type": "string"
+          },
+          "Stats_Kbps": {
+            "type": "string"
+          },
+          "Stats_pps": {
+            "type": "string"
+          },
+          "UpstreamInterface": {
+            "type": "string"
+          },
+          "Uptime": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ForwardingState",
+          "RouteState",
+          "Source",
+          "UpstreamInterface",
+          "Uptime",
+          "Stats_Kbps",
+          "Stats_pps",
+          "StatsPackets"
+        ],
+        "type": "object"
+      },
+      "value": {
+        "properties": {
+          "Group": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Group"
+        ],
+        "type": "object"
+      }
+    },
+    "required": [
+      "key",
+      "value"
+    ],
+    "type": "object"
+  },
+  "service_name": "show_multicast_route",
+  "storage_schema_path": "aos.sdk.telemetry.schemas.iba_data",
+  "collectors": [
+    {
+      "platform": {
+        "os_type": "junos_evo",
+        "os_version": "21.2r2",
+        "family": "ptx,ptx1k,qfx-ms-fixed",
+        "model": ""
+      },
+      "source_type": "cli",
+      "cli": "show multicast route extensive instance A",
+      "query": {
+        "accessors": {
+          "StatsPackets": "/multicast-route-information/route-family/multicast-route/forwarded-packet-count",
+          "Group": "/multicast-route-information/route-family/multicast-route/multicast-group-address",
+          "Uptime": "/multicast-route-information/route-family/multicast-route/multicast-route-uptime",
+          "RouteState": "/multicast-route-information/route-family/multicast-route/multicast-route-state",
+          "Stats_pps": "/multicast-route-information/route-family/multicast-route/forwarding-rate-packets",
+          "Stats_Kbps": "/multicast-route-information/route-family/multicast-route/forwarding-rate-kilobytes",
+          "UpstreamInterface": "/multicast-route-information/route-family/multicast-route/upstream-interface-name",
+          "Source": "/multicast-route-information/route-family/multicast-route/multicast-source-address",
+          "ForwardingState": "/multicast-route-information/route-family/multicast-route/multicast-route-forwarding-state"
+        },
+        "keys": {
+          "ForwardingState": "ForwardingState",
+          "RouteState": "RouteState",
+          "Source": "Source",
+          "UpstreamInterface": "UpstreamInterface",
+          "Uptime": "Uptime",
+          "Stats_Kbps": "Stats_Kbps",
+          "Stats_pps": "Stats_pps",
+          "StatsPackets": "StatsPackets"
+        },
+        "values": {
+          "Group": "Group"
+        },
+        "filter": ""
+      },
+      "relaxed_schema_validation": true
+    }
+  ],
+  "version": "version_0"
+}

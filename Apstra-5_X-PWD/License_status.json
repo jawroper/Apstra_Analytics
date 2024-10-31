@@ -1,0 +1,75 @@
+{
+  "description": "",
+  "application_schema": {
+    "properties": {
+      "key": {
+        "properties": {
+          "license_name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "license_name"
+        ],
+        "type": "object"
+      },
+      "value": {
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "licensed": {
+            "type": "integer"
+          },
+          "validity-type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "licensed",
+          "validity-type",
+          "description"
+        ],
+        "type": "object"
+      }
+    },
+    "required": [
+      "key",
+      "value"
+    ],
+    "type": "object"
+  },
+  "service_name": "License_status",
+  "storage_schema_path": "aos.sdk.telemetry.schemas.iba_data",
+  "collectors": [
+    {
+      "platform": {
+        "os_type": "junos_evo",
+        "os_version": "21.2r2",
+        "family": "ptx,ptx1k,qfx-ms-fixed",
+        "model": ""
+      },
+      "source_type": "cli",
+      "cli": "show system license",
+      "query": {
+        "accessors": {
+          "license_name": "/license-summary-information/license-usage-summary/feature-summary/name",
+          "licensed": "/license-summary-information/license-usage-summary/feature-summary/licensed",
+          "validity_type": "/license-summary-information/license-usage-summary/feature-summary/validity-type",
+          "description": "/license-summary-information/license-usage-summary/feature-summary/description"
+        },
+        "keys": {
+          "license_name": "license_name"
+        },
+        "values": {
+          "licensed": "int(licensed or 0)",
+          "validity-type": "validity_type",
+          "description": "description"
+        },
+        "filter": "keys['license_name'].lower().startswith([\"macsec\"])"
+      },
+      "relaxed_schema_validation": true
+    }
+  ],
+  "version": "version_0"
+}

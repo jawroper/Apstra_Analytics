@@ -1,0 +1,115 @@
+{
+  "label": "Multicast",
+  "processors": [
+    {
+      "name": "Extensible Service Collector",
+      "type": "extensible_data_collector",
+      "properties": {
+        "service_name": "show_multicast_route",
+        "service_interval": "120",
+        "value_map": {},
+        "graph_query": [
+          "match(node('system', name='system', deploy_mode='deploy', role=is_in(['leaf'])))"
+        ],
+        "service_input": "''",
+        "query_group_by": [],
+        "keys": [],
+        "ingestion_filter": {},
+        "data_type": "dynamic",
+        "query_tag_filter": {
+          "filter": {},
+          "operation": "and"
+        },
+        "execution_count": "-1",
+        "system_id": "system.system_id",
+        "query_expansion": {},
+        "enable_streaming": false
+      },
+      "inputs": {},
+      "outputs": {
+        "out": "show multicast route extensive"
+      }
+    },
+    {
+      "name": "Extensible Service Collector 1",
+      "type": "extensible_data_collector",
+      "properties": {
+        "service_name": "show_multicast_statistics",
+        "service_interval": "120",
+        "value_map": {},
+        "graph_query": [
+          "match(node('system', name='system', deploy_mode='deploy', role=is_in(['leaf'])))"
+        ],
+        "service_input": "''",
+        "query_group_by": [],
+        "keys": [],
+        "ingestion_filter": {},
+        "data_type": "dynamic",
+        "query_tag_filter": {
+          "filter": {},
+          "operation": "and"
+        },
+        "execution_count": "-1",
+        "system_id": "system.system_id",
+        "query_expansion": {},
+        "enable_streaming": false
+      },
+      "inputs": {},
+      "outputs": {
+        "out": "show multicast statistics extensive"
+      }
+    },
+    {
+      "name": "Extensible Service Collector 2",
+      "type": "extensible_data_collector",
+      "properties": {
+        "service_name": "pim_join_Test",
+        "service_interval": "120",
+        "value_map": {},
+        "graph_query": [
+          "match(node('system', name='system', deploy_mode='deploy', role=is_in(['leaf'])))"
+        ],
+        "service_input": "''",
+        "query_group_by": [],
+        "keys": [],
+        "ingestion_filter": {},
+        "data_type": "dynamic",
+        "query_tag_filter": {
+          "filter": {},
+          "operation": "and"
+        },
+        "execution_count": "-1",
+        "system_id": "system.system_id",
+        "query_expansion": {},
+        "enable_streaming": false
+      },
+      "inputs": {},
+      "outputs": {
+        "out": "pim join extensive"
+      }
+    }
+  ],
+  "stages": [
+    {
+      "name": "show multicast route extensive",
+      "retention_duration": 86400,
+      "units": {
+        "Group": ""
+      }
+    },
+    {
+      "name": "show multicast statistics extensive",
+      "retention_duration": 86400,
+      "units": {
+        "Interface": ""
+      }
+    },
+    {
+      "name": "pim join extensive",
+      "retention_duration": 86400,
+      "units": {
+        "Group": ""
+      }
+    }
+  ]
+}

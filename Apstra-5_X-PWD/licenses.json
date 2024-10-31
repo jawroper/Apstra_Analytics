@@ -1,0 +1,63 @@
+{
+  "description": "",
+  "application_schema": {
+    "properties": {
+      "key": {
+        "properties": {
+          "license": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "license"
+        ],
+        "type": "object"
+      },
+      "value": {
+        "properties": {
+          "Description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Description"
+        ],
+        "type": "object"
+      }
+    },
+    "required": [
+      "key",
+      "value"
+    ],
+    "type": "object"
+  },
+  "service_name": "licenses",
+  "storage_schema_path": "aos.sdk.telemetry.schemas.iba_data",
+  "collectors": [
+    {
+      "platform": {
+        "os_type": "junos",
+        "os_version": "21.2r2",
+        "family": "junos,junos-ex,junos-qfx",
+        "model": ""
+      },
+      "source_type": "cli",
+      "cli": "show system license",
+      "query": {
+        "accessors": {
+          "license": "/license-summary-information/license-usage-summary/feature-summary/name",
+          "Description": "/license-summary-information/license-usage-summary/feature-summary/description"
+        },
+        "keys": {
+          "license": "license"
+        },
+        "values": {
+          "Description": "Description"
+        },
+        "filter": ""
+      },
+      "relaxed_schema_validation": true
+    }
+  ],
+  "version": "version_0"
+}

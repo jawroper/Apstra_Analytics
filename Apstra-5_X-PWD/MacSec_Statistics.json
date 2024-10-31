@@ -1,0 +1,81 @@
+{
+  "description": "show security macsec statistics",
+  "application_schema": {
+    "properties": {
+      "key": {
+        "properties": {
+          "Interface_Name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Interface_Name"
+        ],
+        "type": "object"
+      },
+      "value": {
+        "properties": {
+          "SA_Accepted": {
+            "type": "string"
+          },
+          "SA_Transmitted": {
+            "type": "string"
+          },
+          "SC_Decrypted_Bytes": {
+            "type": "string"
+          },
+          "SC_Encrypted_Bytes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "SA_Accepted",
+          "SA_Transmitted",
+          "SC_Decrypted_Bytes",
+          "SC_Encrypted_Bytes"
+        ],
+        "type": "object"
+      }
+    },
+    "required": [
+      "key",
+      "value"
+    ],
+    "type": "object"
+  },
+  "service_name": "MacSec_Statistics",
+  "storage_schema_path": "aos.sdk.telemetry.schemas.iba_data",
+  "collectors": [
+    {
+      "platform": {
+        "os_type": "junos_evo",
+        "os_version": "21.2r2",
+        "family": "ptx,ptx1k,qfx-ms-fixed",
+        "model": ""
+      },
+      "source_type": "cli",
+      "cli": "show security macsec statistics ",
+      "query": {
+        "accessors": {
+          "Interface_Name": "/macsec-statistics/interface-name",
+          "SA_Accepted": "/macsec-statistics/secure-association-received/ok-packets",
+          "SA_Transmitted": "/macsec-statistics/secure-association-sent/encrypted-packets",
+          "SC_Decrypted_Bytes": "/macsec-statistics/secure-channel-received/decrypted-bytes",
+          "SC_Encrypted_Bytes": "/macsec-statistics/secure-channel-sent/encrypted-bytes"
+        },
+        "keys": {
+          "Interface_Name": "Interface_Name"
+        },
+        "values": {
+          "SA_Accepted": "SA_Accepted",
+          "SA_Transmitted": "SA_Transmitted",
+          "SC_Decrypted_Bytes": "SC_Decrypted_Bytes",
+          "SC_Encrypted_Bytes": "SC_Encrypted_Bytes"
+        },
+        "filter": ""
+      },
+      "relaxed_schema_validation": true
+    }
+  ],
+  "version": "version_0"
+}

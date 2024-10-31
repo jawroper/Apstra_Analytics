@@ -1,0 +1,191 @@
+{
+  "description": "show security macsec connections",
+  "application_schema": {
+    "properties": {
+      "key": {
+        "properties": {
+          "InterfaceName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "InterfaceName"
+        ],
+        "type": "object"
+      },
+      "value": {
+        "properties": {
+          "Create_Time_Inbound": {
+            "type": "string"
+          },
+          "Cipher_Suite": {
+            "type": "string"
+          },
+          "SC_ID_Inbound": {
+            "type": "string"
+          },
+          "Include_SCI": {
+            "type": "string"
+          },
+          "Status_Inbound": {
+            "type": "string"
+          },
+          "Create_Time_Outbound": {
+            "type": "string"
+          },
+          "Status_Outbound": {
+            "type": "string"
+          },
+          "CA_Name": {
+            "type": "string"
+          },
+          "SC_ID_Outbound": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Create_Time_Inbound",
+          "Cipher_Suite",
+          "SC_ID_Inbound",
+          "Include_SCI",
+          "Status_Inbound",
+          "Create_Time_Outbound",
+          "Status_Outbound",
+          "CA_Name",
+          "SC_ID_Outbound"
+        ],
+        "type": "object"
+      }
+    },
+    "required": [
+      "key",
+      "value"
+    ],
+    "type": "object"
+  },
+  "service_name": "MacSec_Connections_TR",
+  "storage_schema_path": "aos.sdk.telemetry.schemas.iba_data",
+  "collectors": [
+    {
+      "platform": {
+        "os_type": "junos_evo",
+        "os_version": "21.2r2",
+        "family": "qfx-ms-fixed",
+        "model": ""
+      },
+      "source_type": "cli",
+      "cli": "show security macsec connections ",
+      "query": {
+        "accessors": {
+          "Create_Time_Inbound": "/macsec-connection-information/inbound-secure-channel/inbound-secure-association/create-time",
+          "Cipher_Suite": "/macsec-connection-information/macsec-interface-common-information/cipher-suite",
+          "SC_ID_Inbound": "/macsec-connection-information/inbound-secure-channel/sci",
+          "Include_SCI": "/macsec-connection-information/macsec-interface-common-information/include-sci",
+          "Status_Inbound": "/macsec-connection-information/inbound-secure-channel/inbound-secure-association/association-number-status",
+          "Create_Time_Outbound": "/macsec-connection-information/outbound-secure-channel/outbound-secure-association/create-time",
+          "Status_Outbound": "/macsec-connection-information/outbound-secure-channel/outbound-secure-association/association-number-status",
+          "InterfaceName": "/macsec-connection-information/macsec-interface-common-information/interface-name",
+          "CA_Name": "/macsec-connection-information/macsec-interface-common-information/connectivity-association-name",
+          "SC_ID_Outbound": "/macsec-connection-information/outbound-secure-channel/sci"
+        },
+        "keys": {
+          "InterfaceName": "InterfaceName"
+        },
+        "values": {
+          "Create_Time_Inbound": "Create_Time_Inbound",
+          "Cipher_Suite": "Cipher_Suite",
+          "SC_ID_Inbound": "SC_ID_Inbound",
+          "Include_SCI": "Include_SCI",
+          "Status_Inbound": "Status_Inbound",
+          "Create_Time_Outbound": "Create_Time_Outbound",
+          "Status_Outbound": "Status_Outbound",
+          "CA_Name": "CA_Name",
+          "SC_ID_Outbound": "SC_ID_Outbound"
+        },
+        "filter": ""
+      },
+      "relaxed_schema_validation": true
+    },
+    {
+      "platform": {
+        "os_type": "junos_evo",
+        "os_version": "21.2r2",
+        "family": "ptx1k",
+        "model": "PTX10001-36MR"
+      },
+      "source_type": "cli",
+      "cli": "show security macsec connections ",
+      "query": {
+        "accessors": {
+          "Create_Time_Inbound": "/macsec-connection-information/inbound-secure-channel/inbound-secure-association/create-time",
+          "Cipher_Suite": "/macsec-connection-information/macsec-interface-common-information/cipher-suite",
+          "SC_ID_Inbound": "/macsec-connection-information/inbound-secure-channel/sci",
+          "Include_SCI": "/macsec-connection-information/macsec-interface-common-information/include-sci",
+          "Status_Inbound": "/macsec-connection-information/inbound-secure-channel/inbound-secure-association/association-number-status",
+          "Create_Time_Outbound": "/macsec-connection-information/outbound-secure-channel/outbound-secure-association/create-time",
+          "Status_Outbound": "/macsec-connection-information/outbound-secure-channel/outbound-secure-association/association-number-status",
+          "InterfaceName": "/macsec-connection-information/macsec-interface-common-information/interface-name",
+          "CA_Name": "/macsec-connection-information/macsec-interface-common-information/connectivity-association-name",
+          "SC_ID_Outbound": "/macsec-connection-information/outbound-secure-channel/sci"
+        },
+        "keys": {
+          "InterfaceName": "InterfaceName"
+        },
+        "values": {
+          "Create_Time_Inbound": "Create_Time_Inbound",
+          "Cipher_Suite": "Cipher_Suite",
+          "SC_ID_Inbound": "SC_ID_Inbound",
+          "Include_SCI": "Include_SCI",
+          "Status_Inbound": "Status_Inbound",
+          "Create_Time_Outbound": "Create_Time_Outbound",
+          "Status_Outbound": "Status_Outbound",
+          "CA_Name": "CA_Name",
+          "SC_ID_Outbound": "SC_ID_Outbound"
+        },
+        "filter": ""
+      },
+      "relaxed_schema_validation": true
+    },
+    {
+      "platform": {
+        "os_type": "junos_evo",
+        "os_version": "21.2r2",
+        "family": "ptx",
+        "model": ""
+      },
+      "source_type": "cli",
+      "cli": "show security macsec connections ",
+      "query": {
+        "accessors": {
+          "Create_Time_Inbound": "/macsec-connection-information/inbound-secure-channel/inbound-secure-association/create-time",
+          "Cipher_Suite": "/macsec-connection-information/macsec-interface-common-information/cipher-suite",
+          "SC_ID_Inbound": "/macsec-connection-information/inbound-secure-channel/sci",
+          "Include_SCI": "/macsec-connection-information/macsec-interface-common-information/include-sci",
+          "Status_Inbound": "/macsec-connection-information/inbound-secure-channel/inbound-secure-association/association-number-status",
+          "Create_Time_Outbound": "/macsec-connection-information/outbound-secure-channel/outbound-secure-association/create-time",
+          "Status_Outbound": "/macsec-connection-information/outbound-secure-channel/outbound-secure-association/association-number-status",
+          "InterfaceName": "/macsec-connection-information/macsec-interface-common-information/interface-name",
+          "CA_Name": "/macsec-connection-information/macsec-interface-common-information/connectivity-association-name",
+          "SC_ID_Outbound": "/macsec-connection-information/outbound-secure-channel/sci"
+        },
+        "keys": {
+          "InterfaceName": "InterfaceName"
+        },
+        "values": {
+          "Create_Time_Inbound": "Create_Time_Inbound",
+          "Cipher_Suite": "Cipher_Suite",
+          "SC_ID_Inbound": "str(SC_ID_Inbound or \"empty\")",
+          "Include_SCI": "Include_SCI",
+          "Status_Inbound": "Status_Inbound",
+          "Create_Time_Outbound": "Create_Time_Outbound",
+          "Status_Outbound": "Status_Outbound",
+          "CA_Name": "CA_Name",
+          "SC_ID_Outbound": "str(SC_ID_Outbound or \"empty\")"
+        },
+        "filter": ""
+      },
+      "relaxed_schema_validation": true
+    }
+  ],
+  "version": "version_0"
+}

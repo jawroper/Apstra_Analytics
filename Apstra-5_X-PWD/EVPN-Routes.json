@@ -1,0 +1,61 @@
+{
+  "description": "",
+  "application_schema": {
+    "properties": {
+      "key": {
+        "properties": {
+          "route_entry": {
+            "type": "string"
+          },
+          "route_table": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "route_entry",
+          "route_table"
+        ],
+        "type": "object"
+      },
+      "value": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "key",
+      "value"
+    ],
+    "type": "object"
+  },
+  "service_name": "EVPN-Routes",
+  "storage_schema_path": "aos.sdk.telemetry.schemas.iba_integer_data",
+  "collectors": [
+    {
+      "platform": {
+        "os_type": "junos_evo",
+        "os_version": "21.2r2",
+        "family": "ptx,ptx1k,qfx-ms-fixed",
+        "model": ""
+      },
+      "source_type": "cli",
+      "cli": "show route",
+      "query": {
+        "accessors": {
+          "route_entry": "/route-information/route-table/rt/rt-destination",
+          "route_table": "/route-information/route-table/table-name",
+          "value": "/route-information/route-table/total-route-count"
+        },
+        "keys": {
+          "route_entry": "route_entry",
+          "route_table": "route_table"
+        },
+        "values": {
+          "value": "int(value or 1)"
+        },
+        "filter": "keys['route_table'].lower().endswith([\"evpn.0\"])"
+      },
+      "relaxed_schema_validation": true
+    }
+  ],
+  "version": "version_0"
+}
